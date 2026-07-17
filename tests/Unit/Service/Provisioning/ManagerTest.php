@@ -11,7 +11,6 @@ use ChristophWurst\Nextcloud\Testing\ServiceMockObject;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCA\Mail\Db\MailAccount;
 use OCA\Mail\Db\Provisioning;
-use OCA\Mail\Exception\ValidationException;
 use OCA\Mail\Service\Provisioning\Manager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IUser;
@@ -373,30 +372,5 @@ class ManagerTest extends TestCase {
 		]);
 
 		self::assertInstanceOf(Provisioning::class, $result);
-	}
-
-	public function testNewProvisioningWithOidcNotAvailable(): void {
-		$this->mock->getParameter('oidcIntegration')
-			->expects($this->once())
-			->method('isAvailable')
-			->willReturn(false);
-		$this->mock->getParameter('provisioningMapper')
-			->expects($this->never())
-			->method('validate');
-		$this->expectException(ValidationException::class);
-
-		$this->manager->newProvisioning([
-			'oidcEnabled' => true,
-			'email' => '%USERID%@domain.com',
-			'imapUser' => '%USERID%@domain.com',
-			'imapHost' => 'mx.domain.com',
-			'imapPort' => 993,
-			'imapSslMode' => 'ssl',
-			'smtpUser' => '%USERID%@domain.com',
-			'smtpHost' => 'mx.domain.com',
-			'smtpPort' => 567,
-			'smtpSslMode' => 'tls',
-			'sieveEnabled' => false,
-		]);
 	}
 }

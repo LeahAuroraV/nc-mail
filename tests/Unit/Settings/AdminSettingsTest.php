@@ -37,15 +37,11 @@ class AdminSettingsTest extends TestCase {
 	}
 
 	public function testGetForm() {
-		$this->serviceMock->getParameter('initialStateService')->expects($this->exactly(15))
+		$this->serviceMock->getParameter('initialStateService')->expects($this->exactly(14))
 			->method('provideInitialState')
 			->withConsecutive(
 				[
 					'provisioning_settings',
-					$this->anything()
-				],
-				[
-					'oidc_available',
 					$this->anything()
 				],
 				[

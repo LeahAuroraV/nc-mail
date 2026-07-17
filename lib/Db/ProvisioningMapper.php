@@ -113,8 +113,6 @@ class ProvisioningMapper extends QBMapper {
 			$provisioning->setMasterPassword($data['masterPassword']);
 		}
 
-		$provisioning->setOidcEnabled((bool)($data['oidcEnabled'] ?? false));
-
 		$provisioning->setSieveEnabled((bool)$data['sieveEnabled']);
 		$provisioning->setSieveHost($data['sieveHost'] ?? '');
 		$provisioning->setSieveUser($data['sieveUser'] ?? '');

@@ -183,30 +183,6 @@
 				</div>
 				<div class="settings-group">
 					<div class="group-title">
-						{{ t('mail', 'OpenID Connect') }}
-					</div>
-					<div class="group-inputs">
-						<div>
-							<input
-								:id="'mail-oidc-enabled' + setting.id"
-								v-model="oidcEnabled"
-								:disabled="loading || (!oidcAvailable && !oidcEnabled)"
-								type="checkbox"
-								class="checkbox">
-							<label :for="'mail-oidc-enabled' + setting.id">
-								{{ t('mail', 'Use the user\'s OIDC access token (XOAUTH2)') }}
-							</label>
-						</div>
-						<p v-if="oidcAvailable" class="settings-hint">
-							{{ t('mail', 'Authenticate against IMAP and SMTP with the access token of the user\'s OIDC login (user_oidc) instead of a stored password. Requires mail servers that accept XOAUTH2 with the same identity provider.') }}
-						</p>
-						<p v-else class="settings-hint">
-							{{ t('mail', 'Requires the user_oidc app to be installed and enabled.') }}
-						</p>
-					</div>
-				</div>
-				<div class="settings-group">
-					<div class="group-title">
 						{{ t('mail', 'Master password') }}
 					</div>
 					<div class="group-inputs">
@@ -214,7 +190,6 @@
 							<input
 								:id="'mail-master-password-enabled' + setting.id"
 								v-model="masterPasswordEnabled"
-								:disabled="oidcEnabled"
 								type="checkbox"
 								class="checkbox">
 							<label :for="'mail-master-password-enabled' + setting.id">
@@ -225,9 +200,9 @@
 							<input
 								id="mail-master-password"
 								v-model="masterPassword"
-								:disabled="loading || oidcEnabled"
+								:disabled="loading"
 								type="password"
-								:required="masterPasswordEnabled && !oidcEnabled">
+								:required="masterPasswordEnabled">
 							<label for="mail-master-password"> {{ t('mail', 'Master password') }} </label>
 						</div>
 					</div>
@@ -418,10 +393,6 @@ export default {
 			required: true,
 		},
 
-		oidcAvailable: {
-			type: Boolean,
-		},
-
 		submit: {
 			type: Function,
 			required: true,
@@ -455,7 +426,6 @@ export default {
 			smtpSslMode: this.setting.smtpSslMode || 'tls',
 			masterPasswordEnabled: this.setting.masterPasswordEnabled === true,
 			masterPassword: this.setting.masterPassword || '',
-			oidcEnabled: this.setting.oidcEnabled === true,
 			sieveEnabled: this.setting.sieveEnabled || '',
 			sieveHost: this.setting.sieveHost || '',
 			sievePort: this.setting.sievePort || '',
@@ -492,7 +462,6 @@ export default {
 				smtpSslMode: this.smtpSslMode,
 				masterPasswordEnabled: this.masterPasswordEnabled,
 				masterPassword: this.masterPassword,
-				oidcEnabled: this.oidcEnabled,
 				sieveEnabled: this.sieveEnabled,
 				sieveUser: this.sieveUser,
 				sieveHost: this.sieveHost,
@@ -528,7 +497,6 @@ export default {
 					smtpSslMode: this.smtpSslMode,
 					masterPasswordEnabled: this.masterPasswordEnabled,
 					masterPassword: this.masterPassword,
-					oidcEnabled: this.oidcEnabled,
 					sieveEnabled: this.sieveEnabled,
 					sieveUser: this.sieveUser,
 					sieveHost: this.sieveHost,
